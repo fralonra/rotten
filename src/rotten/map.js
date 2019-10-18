@@ -3,6 +3,7 @@ import {
   Map as RotMap,
   RNG
 } from 'rot-js/lib'
+import { getCell } from './utils'
 
 class Map {
   constructor () {
@@ -21,6 +22,21 @@ class Map {
     this._drawWholeMap()
   }
 
+  draw (x, y, ch, fg, bg) {
+    if (ch === undefined) {
+      ch = this.map[x + ',' + y]
+    }
+    this.display.draw(x, y, ch, fg, bg)
+  }
+
+  getMap () {
+    return this.map
+  }
+
+  getFreeCells () {
+    return getCell(this.freeCells)
+  }
+
   _initDisplay () {
     this.display = new Display()
     document.body.appendChild(this.display.getContainer())
@@ -28,14 +44,14 @@ class Map {
 
   _generateMap () {
     const digger = new RotMap.Digger()
-    function digCallback (x, y, value) {
+    const digCallback = (x, y, value) => {
       if (value) return
 
       const key = x + ',' + y
       this.map[key] = '.'
       this.freeCells.push(key)
     }
-    digger.create(digCallback.bind(this))
+    digger.create(digCallback)
   }
 
   _generateBoxes () {
@@ -43,7 +59,7 @@ class Map {
       const index = Math.floor(RNG.getUniform() * this.freeCells.length)
       const key = this.freeCells.splice(index, 1)[0]
       this.map[key] = '*'
-      if (!i) {
+      if (i === 0) {
         this.ananas = key
       }
     }

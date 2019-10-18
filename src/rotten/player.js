@@ -1,4 +1,5 @@
 import { DIRS } from 'rot-js/lib'
+import Being from './being'
 
 const keyMap = {
   38: 0,
@@ -11,18 +12,7 @@ const keyMap = {
   36: 7
 }
 
-class Player {
-  constructor (x, y, game) {
-    this.game = game
-    this._x = x
-    this._y = y
-    this._draw()
-  }
-
-  get map () {
-    return this.game.map ? this.game.map.map : null
-  }
-
+class Player extends Being {
   get position () {
     return [this._x, this._y]
   }
@@ -63,16 +53,12 @@ class Player {
     const newKey = newX + ',' + newY
     if (!(newKey in this.map)) return
 
-    this.game.display.draw(this._x, this._y, this.map[this._x + ',' + this._y])
+    this.game.draw(this._x, this._y)
     this._x = newX
     this._y = newY
     this._draw()
     window.removeEventListener('keydown', this)
     this.game.engine.unlock()
-  }
-
-  _draw () {
-    this.game.display.draw(this._x, this._y, '@', '#ff0')
   }
 }
 

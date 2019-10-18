@@ -1,9 +1,4 @@
-import {
-  Engine,
-  RNG,
-  Scheduler
-} from 'rot-js/lib'
-
+import Engine from './engine'
 import Map from './map'
 import Pedro from './pedro'
 import Player from './player'
@@ -14,52 +9,42 @@ class Game {
     this.map = null
     this.pedro = null
     this.player = null
-
-    this.init()
-  }
-
-  get display () {
-    return this.map ? this.map.display : null
-  }
-
-  get freeCells () {
-    return this.map ? this.map.freeCells : []
+    this.beings = []
   }
 
   init () {
     this._initMap()
-    this._initPlayer()
-    this.pedro = this._initBeing(Pedro)
+    this.player = this._initBeing(Player, { ch: '@', fg: '#ff0' })
+    this.pedro = this._initBeing(Pedro, { ch: 'P', fg: 'red' })
     this._initEngine()
+  }
+
+  draw (x, y, ch, fg, bg) {
+    this.map.draw(x, y, ch, fg, bg)
+  }
+
+  getMap () {
+    return this.map.getMap()
   }
 
   _initMap () {
     this.map = new Map()
   }
 
-  _initPlayer () {
-    const index = Math.floor(RNG.getUniform() * this.freeCells.length)
-    const key = this.freeCells.splice(index, 1)[0]
-    const parts = key.split(',')
-    const x = parseInt(parts[0])
-    const y = parseInt(parts[1])
-    this.player = new Player(x, y, this)
-  }
-
-  _initBeing (What) {
-    const index = Math.floor(RNG.getUniform() * this.freeCells.length)
-    const key = this.freeCells.splice(index, 1)[0]
-    const parts = key.split(',')
-    const x = parseInt(parts[0])
-    const y = parseInt(parts[1])
-    return new What(x, y, this)
+  _initBeing (What, option) {
+    const cell = this.map.getFreeCells()
+    const being = new What({
+      x: cell[0],
+      y: cell[1],
+      game: this,
+      ...option
+    })
+    this.beings.push(being)
+    return being
   }
 
   _initEngine () {
-    const scheduler = new Scheduler.Simple()
-    scheduler.add(this.player, true)
-    scheduler.add(this.pedro, true)
-    this.engine = new Engine(scheduler)
+    this.engine = new Engine(this.beings)
     this.engine.start()
   }
 }
