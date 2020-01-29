@@ -11,7 +11,7 @@
     "publish": "electron-forge publish",
     "build": "rollup -c rollup.config.js",
     "watch": "rollup -c rollup.config.dev.js --watch",
-    "lint": "standard --fix 'src/**/*.js' | snazzy"
+    "lint": "tslint -c tslint.json -p tsconfig.json"
   },
   "repository": {
     "type": "git",
@@ -63,13 +63,13 @@
     "@electron-forge/maker-rpm": "6.0.0-beta.45",
     "@electron-forge/maker-squirrel": "6.0.0-beta.45",
     "@electron-forge/maker-zip": "6.0.0-beta.45",
+    "@rollup/plugin-node-resolve": "^7.0.0",
+    "@rollup/plugin-typescript": "^3.0.0",
     "electron": "6.0.11",
-    "rollup": "^1.23.1",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-terser": "^5.1.2",
+    "rollup": "^1.31.0",
+    "rollup-plugin-terser": "^5.2.0",
     "rot-js": "^2.1.1",
-    "snazzy": "^8.0.0",
-    "standard": "^14.3.1"
+    "typescript": "^3.7.5"
   },
   "standard": {
     "ignore": [

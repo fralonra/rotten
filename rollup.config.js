@@ -1,10 +1,12 @@
 import { terser } from 'rollup-plugin-terser'
-import resolve from 'rollup-plugin-node-resolve'
+import resolve from '@rollup/plugin-node-resolve'
+import typescript from '@rollup/plugin-typescript'
 
 export default [{
-  input: 'src/rotten/index.js',
+  input: 'src/rotten/index.ts',
   plugins: [
     resolve(),
+    typescript(),
     terser()
   ],
   output: {

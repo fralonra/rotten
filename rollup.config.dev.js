@@ -1,9 +1,11 @@
-import resolve from 'rollup-plugin-node-resolve'
+import resolve from '@rollup/plugin-node-resolve'
+import typescript from '@rollup/plugin-typescript'
 
 export default [{
-  input: 'src/rotten/index.js',
+  input: 'src/rotten/index.ts',
   plugins: [
-    resolve()
+    resolve(),
+    typescript()
   ],
   output: {
     file: 'src/dist/rotten.js',

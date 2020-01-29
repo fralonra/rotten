@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "module": "ES2015",
+    "moduleResolution": "Node",
+    "target": "ES5",
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "removeComments": true,
+    "sourceMap": true
+  },
+  "include": [
+    "src/**/*"
+  ]
+}
